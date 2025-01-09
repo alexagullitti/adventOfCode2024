@@ -1,85 +1,67 @@
 
 #day 2 part 1
-def find_safe_reports_old():
-    # Open the file in read mode
-    with open("day2Input.txt", "r") as file:
-    # Read the entire content of the file
-        content = file.readlines()
 
-    #for each line in the content convert the value to a string and then put in a list
-    list_of_lists = [list(map(int, line.split())) for line in content]
-    #print(list_of_lists)
-
-    test_list = [[7, 10, 12, 16, 17, 18, 21], [1, 2, 3, 4, 5]]
-    line_count = 0
-    safe_count = 0
-
-    for line in list_of_lists:
-        print(line)
-        trend = line[0] - line[1]
-        print(trend)
-        for i in range(len(line)-1):
-            difference = line[i] - line[i+1]
-            print(difference)
-            if trend == 0:
-                break
-            #if trending negative
-            if trend > 0:
-                if difference > 3 or difference <= 0:
-                    break
-            #if trending positive
-            if trend < 0:
-                if difference < -3 or difference >= 0:
-                    break
-        else:
-            print("safe")
-            safe_count += 1
-        line_count += 1
-
-    print(safe_count)
-    print(line_count)
-
-
-
-
-#tried recursion here and it got terribly messed up
-def is_line_safe(trend, line, levels_removed):
-
-    for i in range(len(line)-1):
-
-        difference = line[i] - line[i + 1]
-        print(difference)
-
-        levels_removed = False
-
-        if trend == 0:
-            if levels_removed:
-                return False
-            line.pop(i)
-            levels_removed = True
-            return is_line_safe(trend, line, levels_removed)
-
-        # if trending negative
-        if trend > 0:
-            if difference > 3 or difference <= 0:
-                if levels_removed:
-                    return False
-                line.pop(i)
-                levels_removed = True
-                return is_line_safe(trend, line, levels_removed)
-
-        # if trending positive
-        if trend < 0:
-            if difference < -3 or difference >= 0:
-                if levels_removed:
-                    return False
-                line.pop(i)
-                levels_removed = True
-                return is_line_safe(trend, line, levels_removed)
-
-        print(line)
-        return True
-
+# #attempt 1 did not work
+# def find_safe_reports2():
+#     # Open the file in read mode
+#     file = open("test.txt", "r")
+#     # Read the entire content of the file
+#     content = file.readlines()
+#     list_of_lists = []
+#
+#     for line in content:
+#         numbers = line.split()
+#         numbers = list(map(int, numbers))
+#         list_of_lists.append(numbers)
+#
+#     #print(list_of_lists)
+#     line_count = 0
+#     safe_count = 0
+#
+#     for line in list_of_lists:
+#         print(line)
+#         trend = line[0] - line[1]
+#         print(trend)
+#         for i in range(len(line)-1):
+#             #make a copy
+#             line_copy = line.copy()
+#
+#             #find the difference
+#             difference = line_copy[i] - line_copy[i+1]
+#             print(difference)
+#
+#             level_removed = False
+#
+#             if trend == 0:
+#                 if level_removed:
+#                     safe_count += 1
+#                     break
+#                 line_copy.pop(i)
+#                 level_removed = True
+#
+#             #if trending negative
+#             if trend > 0:
+#                 if difference > 3 or difference <= 0:
+#                     if level_removed:
+#                         break
+#                     line_copy.pop(i)
+#                     level_removed = True
+#
+#             #if trending positive
+#             if trend < 0:
+#                 if difference < -3 or difference >= 0:
+#                     if level_removed:
+#                         break
+#                     line_copy.pop(i)
+#                     level_removed = True
+#             print(line_copy)
+#         else:
+#             print("safe")
+#             safe_count += 1
+#         line_count += 1
+#
+#     print(safe_count)
+#     print(line_count)
 
 def format_file_lines(file_name):
     # Open the file in read mode
@@ -94,90 +76,6 @@ def format_file_lines(file_name):
         list_of_lists.append(numbers)
 
     return list_of_lists
-
-
-def find_safe_reports_part_2():
-    list_of_lists = format_file_lines("test.txt")
-    print(list_of_lists)
-
-    line_count = 0
-    safe_count = 0
-
-    for line in list_of_lists:
-        #print(line)
-        trend = line[0] - line[1]
-        #print(trend)
-
-        is_safe = is_line_safe(trend, line, False)
-        print(is_safe)
-
-    #print(safe_count)
-    #print(line_count)
-
-
-
-#attempt 1 did not work
-def find_safe_reports2():
-    # Open the file in read mode
-    file = open("test.txt", "r")
-    # Read the entire content of the file
-    content = file.readlines()
-    list_of_lists = []
-
-    for line in content:
-        numbers = line.split()
-        numbers = list(map(int, numbers))
-        list_of_lists.append(numbers)
-
-    #print(list_of_lists)
-    line_count = 0
-    safe_count = 0
-
-    for line in list_of_lists:
-        print(line)
-        trend = line[0] - line[1]
-        print(trend)
-        for i in range(len(line)-1):
-            #make a copy
-            line_copy = line.copy()
-
-            #find the difference
-            difference = line_copy[i] - line_copy[i+1]
-            print(difference)
-
-            level_removed = False
-
-            if trend == 0:
-                if level_removed:
-                    safe_count += 1
-                    break
-                line_copy.pop(i)
-                level_removed = True
-
-            #if trending negative
-            if trend > 0:
-                if difference > 3 or difference <= 0:
-                    if level_removed:
-                        break
-                    line_copy.pop(i)
-                    level_removed = True
-
-            #if trending positive
-            if trend < 0:
-                if difference < -3 or difference >= 0:
-                    if level_removed:
-                        break
-                    line_copy.pop(i)
-                    level_removed = True
-            print(line_copy)
-        else:
-            print("safe")
-            safe_count += 1
-        line_count += 1
-
-    print(safe_count)
-    print(line_count)
-
 
 def find_safe_reports():
     # Open the file in read mode
